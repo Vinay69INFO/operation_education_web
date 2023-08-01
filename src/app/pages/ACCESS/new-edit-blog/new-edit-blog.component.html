@@ -1,0 +1,162 @@
+<!-- <p>new-edit-blog works!</p> -->
+
+<button class="btn btn-lg btn-outline-primary" (click)="open(content, '')">
+  Create Blog!
+</button>
+<br><br>
+<div class="container-fluid">
+  <table class="table table-striped">
+    <thead>
+    <tr style="boarder: 1px solid;">
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Blog Textarea</th>
+      <th scope="col">Header</th>
+      <th scope="col">Topic</th>
+      <th scope="col">Sub Topic</th>
+      <th scope="col">Latest Status</th>
+      <th scope="col">Last Updated By</th>
+      <th scope="col" colspan="2" style="width: 10px;">Operation</th>
+    </tr>
+    </thead>
+    <tbody *ngIf="blogVOs.length != 0">
+    <tr *ngFor="let blogVO of blogVOs;  index as i">
+      <th scope="row">{{i+1}}</th>
+      <td>{{blogVO['blogTitle']}}</td>
+      <td style="max-width:100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis5'">{{blogVO['blogBody']}}</td>
+      <td>{{blogVO['navName']}}</td>
+      <td>{{blogVO['topicName']}}</td>
+      <td>{{blogVO['subTopicName']}}</td>
+      <td>{{blogVO['blogStatus']}}</td>
+      <td>{{blogVO['lastUpdatedBy']}}</td>
+      <td>
+        <button type="submit"
+                class="btn btn-outline-dark"
+                (click)="open(content, blogVO);">
+          Edit
+        </button>
+      </td>
+      <td>
+        <button type="submit"
+                class="btn btn-outline-dark"
+                (click)="deleteExistingNav(blogVO['blogId'])">
+          Delete
+        </button>
+      </td>
+    </tr>
+
+    </tbody>
+    <tbody *ngIf="blogVOs.length == 0">
+    <tr>
+      <td scope="col" colspan="9" align="center">Resource is not available. Please try again later.</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+
+<ng-template #content let-modal>
+<div class="modal-header">
+  <h4 class="modal-title"
+      id="modal-new-form" *ngIf="!showEditButton">
+    Create New Navigation
+  </h4>
+  <h4 class="modal-title"
+      id="modal-edit-form"  *ngIf="showEditButton">
+    Edit Navigation
+  </h4>
+  <button type="button" class="close"
+          aria-label="Close" (click)=
+            "modal.dismiss('Cross click')">
+
+			<span aria-hidden="true">
+				×
+			</span>
+  </button>
+</div>
+
+
+
+
+
+<div class="container-fluid">
+  <form [formGroup]="blogNewEditForm">
+
+    <div class="form-group">
+      <label for="titleField" class="form-label">Title</label>
+      <input type="text" class="form-control" id="titleField" name="titleField1" formControlName="titleField">
+    </div>
+
+    <!--ngModel required #bodyField="ngModel"-->
+    <div class="form-group ">
+      <label for="bodyField" class="form-label">Blog textarea</label>
+      <angular-editor class="form-control" id="bodyField" name="bodyField" formControlName="bodyField" placeholder="'Enter text here...'"></angular-editor>
+    </div>
+
+    <div class="d-flex flex-row align-items-center mb-4">
+      <div class="form-outline flex-fill mb-0">
+        <label class="form-label">Select Header</label>
+        <select class="form-select" aria-label="Default select example" formControlName="navSelectedValue" (change)="naveSelectValue()">
+          <option *ngFor="let entity of approvedNavItems; let i = index"
+                  [ngValue]="entity['navId']">{{entity['navTitle']}}
+          </option>
+        </select>
+
+      </div>
+    </div>
+
+    <div class="d-flex flex-row align-items-center mb-4">
+      <div class="form-outline flex-fill mb-0">
+        <label class="form-label">Select Topic</label>
+        <select class="form-select" aria-label="Default select example" formControlName="topicSelectedValue" (change)="topicSelectedValue()">
+          <option *ngFor="let entity of topicVOs; let i = index"
+                  [ngValue]="entity['topicId']">{{entity['topicTitle']}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="d-flex flex-row align-items-center mb-4">
+      <div class="form-outline flex-fill mb-0">
+        <label class="form-label">Select SubTopic</label>
+        <select class="form-select" aria-label="Default select example" formControlName="subTopicSelectedValue">
+          <option *ngFor="let entity of subTopicVOs; let i = index"
+                  [ngValue]="entity['subTopicID']">{{entity['subTopicTitle']}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="submit"
+              class="btn btn-outline-dark"
+              (click)="createNewNav()">
+        Save
+      </button>
+
+      <button type="submit"
+              class="btn btn-outline-dark" [disabled]="blogNewEditForm.invalid"
+              (click)="editExitingNav()">
+        Update
+      </button>
+    </div>
+  </form>
+</div>
+
+
+
+
+</ng-template>
+
+
+
+<!--<div class="container-fluid">
+  <h1>{{title}}</h1>
+  <pre>
+      <code [innerHTML]="htmlContent"></code>
+    </pre>
+</div>-->

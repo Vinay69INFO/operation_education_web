@@ -1,0 +1,210 @@
+<!-- <p>new-edit-sub-topic works!</p> -->
+
+<button class="btn btn-lg btn-outline-primary" (click)="open(content, '')">
+  Create Sub-Topic!
+</button>
+<br><br>
+<div>
+  <table class="table table-striped">
+    <thead>
+    <tr style="boarder: 1px solid;">
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">LinkToNavigate</th>
+      <th scope="col">status</th>
+
+      <th scope="col">LastUpdatedBy</th>
+
+      <th scope="col" colspan="2" style="width: 10px;">Operation</th>
+    </tr>
+    </thead>
+    <tbody *ngIf="subTopicVOs.length != 0">
+    <tr *ngFor="let nav of subTopicVOs;  index as i">
+      <th scope="row">{{i+1}}</th>
+      <td>{{nav['subTopicTitle']}}</td>
+      <td>{{nav['subTopicNavigationUrl']}}</td>
+      <td>{{nav['subtopicStatus']}}</td>
+
+      <td>@mdo</td>
+
+      <td>
+        <button type="submit"
+                class="btn btn-outline-dark"
+                (click)="open(content, nav);">
+          Edit
+        </button>
+      </td>
+      <td>
+        <button type="submit"
+                class="btn btn-outline-dark"
+                (click)="deleteExistingNav(nav['subTopicID'])">
+          Delete
+        </button>
+      </td>
+    </tr>
+
+    </tbody>
+    <tbody *ngIf="subTopicVOs.length == 0">
+    <tr>
+      <td scope="col" colspan="6" align="center">Resource is not available. Please try again later.</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title"
+        id="modal-new-form" *ngIf="!showEditButton">
+      Create New Navigation
+    </h4>
+    <h4 class="modal-title"
+        id="modal-edit-form"  *ngIf="showEditButton">
+      Edit Navigation
+    </h4>
+    <button type="button" class="close"
+            aria-label="Close" (click)=
+              "modal.dismiss('Cross click')">
+
+			<span aria-hidden="true">
+				×
+			</span>
+    </button>
+  </div>
+
+  <!--
+    "showThenValue; then thenBlock else showMessage
+  -->
+  <!--<form [formGroup]="newEditNavigationForm" class="mx-1 mx-md-4" (ngSubmit)="createNewNav()">-->
+
+  <div class="container">
+    <form [formGroup]="newEditNavigationForm" class="mx-1 mx-md-4">
+      <!--
+            <form [formGroup]="newEditNavigationForm" class="mx-1 mx-md-4" *ngIf="!showEditButton" (ngSubmit)="editExitingNav() *ngIf="showEditButton" (ngSubmit)="createNewNav()"">
+      -->
+      <div class="modal-body">
+        <div class="d-flex flex-row align-items-center mb-4">
+          <div class="form-outline flex-fill mb-0">
+            <label class="form-label" for="titleField">Title</label>
+            <input type="text" id="titleField" formControlName="titleField" class="form-control" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-row align-items-center mb-4">
+          <div class="form-outline flex-fill mb-0">
+            <label class="form-label" for="linkToNavigateField">LinkToNavigate</label>
+            <input type="text" id="linkToNavigateField" formControlName="linkToNavigateField" class="form-control" />
+          </div>
+        </div>
+
+        <div class="d-flex flex-row align-items-center mb-4">
+          <div class="form-outline flex-fill mb-0">
+            <label class="form-label">Select Topic</label>
+            <select class="form-select" aria-label="Default select example" formControlName="selectedValue">
+              <option *ngFor="let entity of approvedTopicItems; let i = index"
+                      [ngValue]="entity['topicId']">{{entity['topicTitle']}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="submit"
+                class="btn btn-outline-dark" [disabled]="newEditNavigationForm.invalid"
+                (click)="createNewNav()"  *ngIf="!showEditButton">
+          Save
+        </button>
+
+        <button type="submit"
+                class="btn btn-outline-dark" [disabled]="newEditNavigationForm.invalid"
+                (click)="editExitingNav()"  *ngIf="showEditButton">
+          Update
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<h3>Please click on the below button open popup</h3>
+<hr />
+<button
+  style="margin: 50px; padding: 10px"
+  type="button"
+  class="btn btn-primary"
+  (click)="openPopup()">Show Data
+</button>
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':displayStyle}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">GeeksForGeeks</h4>
+      </div>
+      <div class="modal-body">
+        <p>One Stop Solution for all CS problems</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger"
+                (click)="closePopup()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>-->

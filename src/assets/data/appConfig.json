@@ -1,0 +1,5 @@
+{
+  "envName": "local",
+  "apiUrl": "http://localhost:8045",
+  "MOONLYTE_URL": "http://localhost:4200"
+}
